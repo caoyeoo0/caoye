@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- <mapper usernamespace="com.yiibai.mybatis.models.UserMapper"> -->
+<!-- <select id="GetUserByID" parameterType="int" resultType="User"> -->
+<!-- select * from `user` where id = #{id} -->
+<!-- </select> -->
+<!-- </mapper> -->
+
+<!-- <mapper usernamespace="com.yiibai.mybatis.dao.UserDao"> -->
+<mapper namespace="com.yiibai.mybatis.dao.UserDao">
+
+	<!-- 自定义返回结果集 -->
+	<resultMap id="userMap" type="com.yiibai.mybatis.models.User">
+		<id property="id" column="id"></id>
+		<result property="userusername" column="userusername"></result>
+		<result property="mobile" column="mobile"></result>
+
+		<!-- <result property="sex" column="sex" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/> -->
+		<result property="sex" column="sex" javaType="com.yiibai.mybatis.enums.Sex"
+			jdbcType="INTEGER" typeHandler="com.yiibai.mybatis.handler.SexTypeHandler" />
+
+		<result column="updatetime" property="updatetime" />
+		<!-- <result typeHandler="org.apache.ibatis.type.DateTypeHandler" -->
+		<!-- column="updatetime" javaType="java.util.Date" jdbcType="VARCHAR" -->
+		<!-- property="updatetime" /> -->
+	</resultMap>
+
+	<select id="getUser" parameterType="int"
+		resultType="com.yiibai.mybatis.models.User">
+		SELECT *
+		FROM USER
+		WHERE id = #{userId}
+	</select>
+
+
+	<insert id="insertUser" parameterType="User">
+		INSERT INTO USER(username,
+		mobile, updatetime)
+		VALUES(#{username}, #{mobile}, #{updatetime})
+	</insert>
+
+	<select id="getUserList" parameterType="User" resultMap="userMap">
+		SELECT *
+		FROM USER WHERE sex =
+		#{sex,typeHandler=com.yiibai.mybatis.handler.SexTypeHandler}
+	</select>
+
+	<update id="updateUser" parameterType="User">
+		UPDATE USER
+		SET
+		username=
+		#{username},
+		mobile = #{mobile},
+		updatetime = #{updatetime},
+		WHERE
+		id =
+		#{id}
+	</update>
+
+	<delete id="deleteUser" parameterType="int">
+		DELETE FROM USER WHERE id
+		= #{id}
+	</delete>
+
+</mapper>
