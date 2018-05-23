@@ -51,6 +51,7 @@ public class HelloWord {
             if (user != null) {
                 String userInfo = "名字：" + user.getUsername() + ", 手机：" + user.getMobile() + ", 修改时间：" + user.getUpdatetime();
                 System.out.println(userInfo);
+                // 修改180523 2202
             }
         } finally {
             session.close();
